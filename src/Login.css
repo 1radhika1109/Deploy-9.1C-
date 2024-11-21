@@ -56,210 +56,220 @@ body{
 
 
 .auth-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 20px;
 }
 
 .auth-card {
-  background: white;
-  padding: 2.5rem;
-  border-radius: 1rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-  width: 100%;
-  max-width: 400px;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 400px;
 }
 
 .auth-card.logged-in {
-  text-align: center;
+    text-align: center;
 }
 
 .auth-card h2 {
-  color: #1a1a1a;
-  margin-bottom: 0.5rem;
-  font-size: 1.75rem;
-  font-weight: 600;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    font-size: 1.75rem;
+    font-weight: 600;
 }
 
 .auth-subtitle {
-  color: #666;
-  margin-bottom: 2rem;
-  font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
 }
 
 .auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .input-group {
-  position: relative;
+    position: relative;
 }
 
 .input-icon {
-  position: absolute;
-  left: 1rem;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #666;
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
 }
 
 .input-group input {
-  width: 100%;
-  padding: 0.75rem 1rem 0.75rem 2.75rem;
-  border: 1px solid #e1e1e1;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  transition: border-color 0.2s;
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.75rem;
+    border: 1px solid #e1e1e1;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
 }
 
 .input-group input:focus {
-  outline: none;
-  border-color: #4f46e5;
+    outline: none;
+    border-color: #4f46e5;
 }
 
 .sign-in-btn, 
 .sign-out-btn,
 .google-btn {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  transition: transform 0.1s;
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform 0.1s;
 }
 
 .sign-in-btn {
-  background: #4f46e5;
-  color: white;
+    background: #4f46e5;
+    color: white;
 }
 
 .sign-in-btn:hover {
-  background: #4338ca;
-  transform: translateY(-1px);
+    background: #4338ca;
+    transform: translateY(-1px);
 }
 
 .sign-out-btn {
-  background: #ef4444;
-  color: white;
-  margin-top: 1rem;
+    background: #ef4444;
+    color: white;
+    margin-top: 1rem;
 }
 
 .sign-out-btn:hover {
-  background: #dc2626;
-  transform: translateY(-1px);
+    background: #dc2626;
+    transform: translateY(-1px);
 }
 
-.google-btn {
-  background: white;
-  color: #666;
-  border: 1px solid #e1e1e1;
+
+
+.google-button {
+    background-color: #4285F4;
+    color: white;
+    border: none;
+    padding: 12px 20px;  /* Adjusted padding for a slightly larger button */
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 8px;  /* Slightly rounded edges for a modern look */
+    width: 100%;
+    max-width: 250px; /* Adjusted width for better balance */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Added shadow for more emphasis */
+    transition: all 0.2s ease-in-out;
 }
 
-.google-btn:hover {
-  background: #f9fafb;
-  transform: translateY(-1px);
+.google-button:hover {
+    background-color: #357AE8;
+    transform: translateY(-2px);  /* Slightly stronger hover effect */
 }
 
 .google-icon {
-  width: 18px;
-  height: 18px;
+    width: 18px;
+    height: 18px;
 }
 
 .divider {
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 1rem 0;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1rem 0;
 }
 
 .divider::before,
 .divider::after {
-  content: "";
-  flex: 1;
-  border-bottom: 1px solid #e1e1e1;
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #e1e1e1;
 }
 
 .divider span {
-  padding: 0 1rem;
-  color: #666;
-  font-size: 0.875rem;
+    padding: 0 1rem;
+    color: #666;
+    font-size: 0.875rem;
 }
 
 .signup-link {
-  text-align: center;
-  margin-top: 1.5rem;
-  color: #666;
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
 }
 
 .signup-link a {
-  color: #4f46e5;
-  text-decoration: none;
-  font-weight: 500;
+    color: #4f46e5;
+    text-decoration: none;
+    font-weight: 500;
 }
 
 .signup-link a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .message {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
-  border-radius: 0.5rem;
-  margin-top: 1rem;
-  font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.875rem;
 }
 
 .message.success {
-  background: #ecfdf5;
-  color: #059669;
+    background: #ecfdf5;
+    color: #059669;
 }
 
 .message.error {
-  background: #fef2f2;
-  color: #dc2626;
+    background: #fef2f2;
+    color: #dc2626;
 }
 
 .user-profile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .profile-image {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .profile-initial {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: #4f46e5;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  font-weight: 500;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #4f46e5;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 500;
 }
 
 .user-email {
-  color: #666;
-  font-size: 0.95rem;
+    color: #666;
+    font-size: 0.95rem;
 }

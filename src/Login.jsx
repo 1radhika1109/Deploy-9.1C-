@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import './Login.css'
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import './Login.css';
+import { signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "./utils/firebase";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -11,7 +11,7 @@ function Login() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         // Set up authentication state observer
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -23,7 +23,7 @@ function Login() {
         return () => unsubscribe();
     }, []);
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             await signInWithEmailAndPassword(auth, email, pass);
@@ -37,7 +37,7 @@ function Login() {
         }
     };
 
-    const handleSignOut = async() => {
+    const handleSignOut = async () => {
         try {
             await signOut(auth);
             setMessage("Signed out successfully");
@@ -49,13 +49,25 @@ function Login() {
         }
     };
 
+    const handleGoogleSignIn = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            setMessage("User logged in with Google successfully");
+            setIsLoggedIn(true);
+            setCurrentUser(result.user);
+        } catch (error) {
+            setMessage("Error with Google Sign In: " + error.message);
+        }
+    };
+
     if (isLoggedIn && currentUser) {
         return (
             <div className="login">
                 <h4>Welcome, {currentUser.email}!</h4>
                 <div className="logged-in-container">
                     <p>You are currently logged in.</p>
-                    <button 
+                    <button
                         onClick={handleSignOut}
                         className="button"
                     >
@@ -98,6 +110,13 @@ function Login() {
 
                 {message && <p className="message">{message}</p>}
             </form>
+
+            <div className="google-signin-container">
+                <p>Or sign in with Google:</p>
+                <button onClick={handleGoogleSignIn} className="google-button">
+                    Sign In with Google
+                </button>
+            </div>
         </div>
     );
 }

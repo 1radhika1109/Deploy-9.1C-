@@ -1,98 +1,124 @@
-import React, { useState } from "react";
-import './Signup.css'
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import {auth, db} from './utils/firebase'
-import { doc, setDoc } from "firebase/firestore";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import './Login.css';
+import { signInWithEmailAndPassword, signOut, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "./utils/firebase";
+import { Link, useNavigate } from "react-router-dom";
 
-function SignUp() {
+function Login() {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    const [conf, setConf] = useState('');
-    const [name, setName] = useState('');
     const [message, setMessage] = useState('');
-    const [isRegistered, setIsRegistered] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
+    const navigate = useNavigate();
 
-    const handleClick = async (e)=>{
+    useEffect(() => {
+        // Set up authentication state observer
+        const unsubscribe = auth.onAuthStateChanged((user) => {
+            setCurrentUser(user);
+            setIsLoggedIn(!!user);
+        });
+
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
+    }, []);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if(pass !== conf){
-            setMessage('Passwords do not match');
-            return;
-        }
-
-        console.log("Email being passed:", email);
-        try{
-            await createUserWithEmailAndPassword(auth, email, pass);
-            const user = auth.currentUser;
-            console.log(user);
-            if(user){
-                await setDoc(doc(db, "Users", user.uid), {
-                    email: user.email,
-                    pass: pass,
-                    name: name
-                });
-            }
-            setMessage("User registered successfully");
-            setIsRegistered(true);
-        }
-        catch(error) {
+        try {
+            await signInWithEmailAndPassword(auth, email, pass);
+            setMessage("User logged in successfully");
+            setIsLoggedIn(true);
+            // Clear form fields after successful login
+            setEmail('');
+            setPass('');
+        } catch (error) {
             setMessage(error.message);
         }
     };
-    
-    return(
-        <div className="signup">
-            <h3>Create a DEV@Deakin Account</h3>
-            <form onSubmit={handleClick}>
-                <div className="name_area">
-                    <label >Name*</label>
-                    <input
-                        type="text"
-                        className="name-input"
-                        onChange={(e) => setName(e.target.value)}
-                        required
-                    />
+
+    const handleSignOut = async () => {
+        try {
+            await signOut(auth);
+            setMessage("Signed out successfully");
+            setIsLoggedIn(false);
+            setCurrentUser(null);
+            navigate('/login');
+        } catch (error) {
+            setMessage("Error signing out: " + error.message);
+        }
+    };
+
+    const handleGoogleSignIn = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+            const result = await signInWithPopup(auth, provider);
+            setMessage("User logged in with Google successfully");
+            setIsLoggedIn(true);
+            setCurrentUser(result.user);
+        } catch (error) {
+            setMessage("Error with Google Sign In: " + error.message);
+        }
+    };
+
+    if (isLoggedIn && currentUser) {
+        return (
+            <div className="login">
+                <h4>Welcome, {currentUser.email}!</h4>
+                <div className="logged-in-container">
+                    <p>You are currently logged in.</p>
+                    <button
+                        onClick={handleSignOut}
+                        className="button"
+                    >
+                        Sign Out
+                    </button>
                 </div>
-                <div className="email_area">
-                    <label >Email*</label>
+                {message && <p className="message">{message}</p>}
+            </div>
+        );
+    }
+
+    return (
+        <div className="login">
+            <h4>Log In</h4>
+            <p className="user">
+                New User? <Link to="/signup">Sign Up here!</Link>
+            </p>
+            <form onSubmit={handleSubmit}>
+                <div className="area">
+                    <label>Your email</label>
                     <input
                         type="email"
-                        className="email_input"
+                        className="input"
+                        value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
-                <div className="pass_area">
-                    <label >Password*</label>
+                <div className="area">
+                    <label>Your Password</label>
                     <input
                         type="password"
-                        className="pass_input"
+                        className="input"
+                        value={pass}
                         onChange={(e) => setPass(e.target.value)}
                         required
                     />
                 </div>
-                <div className="pass_area">
-                    <label >Confirm Password*</label>
-                    <input
-                        type="password"
-                        className="pass_input"
-                        onChange={(e) => setConf(e.target.value)}
-                        required
-                    />
-                </div>
-                    <button className="button" >Sign Up</button>
+                <button type="submit" className="button">Log In</button>
 
-                {message && <p>{message}</p>}
-                {isRegistered && ( <p>Registration successfull.</p>)}
-
-                <p className="user">
-                    Already a User? <Link to="/login">Log In here!</Link>
-                </p> 
+                {message && <p className="message">{message}</p>}
             </form>
-            
+
+            <div className="google-signin-container">
+                <p>Or sign in with Google:</p>
+                <button onClick={handleGoogleSignIn} className="google-button">
+                    Sign In with Google
+                </button>
+            </div>
         </div>
     );
 }
 
-export default SignUp;
+export default Login;
